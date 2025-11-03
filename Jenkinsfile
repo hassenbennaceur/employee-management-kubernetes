@@ -39,7 +39,7 @@ pipeline {
                 /* On construit l'image Docker en tag 'latest'
                    Le Dockerfile doit être à la racine du repo */
                 sh """
-                    docker build -t ${backend_image}:v1.0 ${backendF}   
+                    sudo docker build -t ${backend_image}:v1.0 ${backendF}   
                 """
             }
         }
@@ -67,12 +67,12 @@ pipeline {
 
                         // retag l'image locale avec ton namespace Docker Hub
                         sh """
-                            docker tag ${backend_image}:v1.0 ${DOCKERHUB_USER}/${backend_image}:v1.0
-                            docker push ${DOCKERHUB_USER}/${backend_image}:v1.0
+                            sudo docker tag ${backend_image}:v1.0 ${DOCKERHUB_USER}/${backend_image}:v1.0
+                            sudo docker push ${DOCKERHUB_USER}/${backend_image}:v1.0
                         """
 
                         // logout 
-                        sh "docker logout"
+                        sh "sudo docker logout"
                     }
                 }
             }
@@ -85,7 +85,7 @@ pipeline {
                 /* On construit l'image Docker en tag 'latest'
                    Le Dockerfile doit être à la racine du repo */
                 sh """
-                    docker build -t ${frontend_image}:v1.0 ${frontendF}
+                    sudo docker build -t ${frontend_image}:v1.0 ${frontendF}
                 """
             }
         }
@@ -113,12 +113,12 @@ pipeline {
 
                         // retag l'image locale avec ton namespace Docker Hub
                         sh """
-                            docker tag ${frontend_image}:v1.0 ${DOCKERHUB_USER}/${frontend_image}:v1.0
-                            docker push ${DOCKERHUB_USER}/${frontend_image}:v1.0
+                            sudo docker tag ${frontend_image}:v1.0 ${DOCKERHUB_USER}/${frontend_image}:v1.0
+                            sudo docker push ${DOCKERHUB_USER}/${frontend_image}:v1.0
                         """
 
                         // logout 
-                        sh "docker logout"
+                        sh "sudo docker logout"
                     }
                 }
             }
@@ -129,7 +129,7 @@ pipeline {
                 script {
                     sh 
                         """
-                        docker compose up -d
+                        sudo docker compose up -d
                         """
                     }
             }
