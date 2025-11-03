@@ -6,16 +6,16 @@ pipeline {
     /* Variables globales */
     environment {
         // Nom local de l'image 
-        backend-image = ""
-        frontend-image = ""
+        backend-image = "backend_cont"
+        frontend-image = "front_cont"
         
         // Repo folders
         
-        backendF = ""
-        frontendF = ""
+        backendF = "emp_backend"
+        frontendF = "emp_frontend"
 
         // URL du repo GitHub
-        GIT_REPO = ""
+        GIT_REPO = "https://github.com/hassenbennaceur/employee-management-docker.git"
     }
 
     stages {
@@ -27,7 +27,7 @@ pipeline {
                 /* Clone le repo avec tes identifiants Jenkins ''
                    - branch: mets 'main' ou 'master' selon ta branche */
                 git branch: 'master',
-                    credentialsId: '',
+                    credentialsId: 'github-cred',
                     url: "${GIT_REPO}"
             }
         }
@@ -39,7 +39,7 @@ pipeline {
                 /* On construit l'image Docker en tag 'latest'
                    Le Dockerfile doit être à la racine du repo */
                 sh """
-                    docker build -t ${backend-image}:latest ${backendF}
+                    docker build -t ${backend-image}:v1.0 ${backendF}   
                 """
             }
         }
@@ -55,7 +55,7 @@ pipeline {
                 */
                 script {
                     withCredentials([usernamePassword(
-                        credentialsId: '',
+                        credentialsId: 'dockerhub-cred',
                         usernameVariable: 'DOCKERHUB_USER',
                         passwordVariable: 'DOCKERHUB_PASS'
                     )]) {
@@ -67,8 +67,8 @@ pipeline {
 
                         // retag l'image locale avec ton namespace Docker Hub
                         sh """
-                            docker tag ${backend-image}:latest ${DOCKERHUB_USER}/${backend-image}:latest
-                            docker push ${DOCKERHUB_USER}/${backend-image}:latest
+                            docker tag ${backend-image}:v1.0 ${DOCKERHUB_USER}/${backend-image}:v1.0
+                            docker push ${DOCKERHUB_USER}/${backend-image}:v1.0
                         """
 
                         // logout 
@@ -85,7 +85,7 @@ pipeline {
                 /* On construit l'image Docker en tag 'latest'
                    Le Dockerfile doit être à la racine du repo */
                 sh """
-                    docker build -t ${frontend-image}:latest ${frontendF}
+                    docker build -t ${frontend-image}:v1.0 ${frontendF}
                 """
             }
         }
@@ -101,7 +101,7 @@ pipeline {
                 */
                 script {
                     withCredentials([usernamePassword(
-                        credentialsId: '',
+                        credentialsId: 'github-cred',
                         usernameVariable: 'DOCKERHUB_USER',
                         passwordVariable: 'DOCKERHUB_PASS'
                     )]) {
@@ -113,8 +113,8 @@ pipeline {
 
                         // retag l'image locale avec ton namespace Docker Hub
                         sh """
-                            docker tag ${frontend-image}:latest ${DOCKERHUB_USER}/${frontend-image}:latest
-                            docker push ${DOCKERHUB_USER}/${frontend-image}:latest
+                            docker tag ${frontend-image}:v1.0 ${DOCKERHUB_USER}/${frontend-image}:v1.0
+                            docker push ${DOCKERHUB_USER}/${frontend-image}:v1.0
                         """
 
                         // logout 
@@ -122,6 +122,17 @@ pipeline {
                     }
                 }
             }
+        }
+        stage(' run docker compose') {
+            steps {
+                echo "==>   echo run docker compose "
+                
+                sh 
+                    """
+                    docker compose up -d
+                    """
+                 }
+
         }
 
     }
