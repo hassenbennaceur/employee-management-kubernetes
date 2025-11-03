@@ -124,14 +124,11 @@ pipeline {
             }
         }
         stage('run docker compose') {
-            steps {
-                echo "==>   echo run docker compose "
+           steps {
+                echo "==> dockerrrrrrr compooooose"
                 script {
-                sh 
-                    """
-                    docker compose up -d
-                    """
-                 }
+                        sh "docker compose up -d"
+                }
             }
 
         }
