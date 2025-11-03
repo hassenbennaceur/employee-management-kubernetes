@@ -9,7 +9,7 @@ services:
   # Service Backend (Spring Boot)
   # ------------------------
   emp_backend:
-    image: backend_cont:v1.0    # Image Docker du backend (doit être buildée avant: docker build -t emp_backend:latest emp_backend/.)
+    image: hassenbn/backend_cont:v1.0    # Image Docker du backend (doit être buildée avant: docker build -t emp_backend:latest emp_backend/.)
     container_name: emp_backend_cont # Nom du conteneur pour le backend
     ports:
       - "8090:8050"                   # Expose le port 8050 interne (Spring Boot) sur le port 8090 de la machine hôte
@@ -29,7 +29,7 @@ services:
   # Service Frontend (Angular packagé dans Nginx)
   # ------------------------
   emp_frontend:
-    image: front_cont:v1.0                        # Image Docker du frontend (doit être buildée avant: docker build -t emp_frontend:latest emp_frontend/.)
+    image: hassenbn/front_cont:v1.0                        # Image Docker du frontend (doit être buildée avant: docker build -t emp_frontend:latest emp_frontend/.)
     container_name: emp_frontend_cont             # Nom du conteneur pour le frontend
     ports:
       - "8070:80"                      # Expose Nginx (port 80 interne) sur 8070 de la machine hôte
