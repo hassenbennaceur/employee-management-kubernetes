@@ -28,6 +28,7 @@ COPY --from=build /app/target/emp_backend-0.0.1-SNAPSHOT.jar .
 # '8050' 
 EXPOSE 8050
 
+ENV SPRING_PROFILES_ACTIVE=docker
 
 # Définir la commande pour exécuter l'application
 # 'java -jar' est utilisé pour lancer l'application JAR

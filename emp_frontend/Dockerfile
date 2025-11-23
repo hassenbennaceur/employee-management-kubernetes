@@ -16,7 +16,7 @@ RUN npm install
 COPY . .              
 
 # Exécute la construction en production de l'application (env docker).
-RUN npm run build:prod-docker
+RUN npm run build:prod-k8s
 
 # Étape 2 : Étape d'exécution
 
