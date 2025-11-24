@@ -1,6 +1,6 @@
 # Utiliser l'image officielle Maven-openjdk comme étape de construction
-FROM maven:3.8.4-openjdk-17 AS build
-
+#FROM maven:3.8.4-openjdk-17 AS build
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 # Définir le répertoire de travail à /app dans le conteneur
 WORKDIR /app
 
@@ -15,8 +15,8 @@ COPY src ./src
 RUN mvn clean install -DskipTests
 
 # Utiliser l'image officielle OpenJDK comme étape d'exécution
-FROM openjdk:17-jdk-alpine
-
+#FROM openjdk:17-jdk-alpine
+FROM eclipse-temurin:17-jdk-alpine
 # Définir le répertoire de travail à /app dans le conteneur
 WORKDIR /app
 
