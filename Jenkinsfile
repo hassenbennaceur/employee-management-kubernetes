@@ -13,7 +13,7 @@ pipeline {
         
         // Tags d'images
         BACKEND_TAG = "latest"
-        FRONTEND_TAG = "latest"
+        FRONTEND_TAG = "v1.0"
         
         // Dossiers sources
         backendF = "emp_backend"
